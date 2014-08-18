@@ -7,6 +7,9 @@ term.setBackgroundColor(2048)
 term.setTextColor(1)
 term.clear()
 
+
+function login()
+term.clear()
 text.cPrint("SkyOS", 2)
 text.cWrite("Username: ", 4)
 text.cWrite("Password: ", 6)
@@ -14,3 +17,28 @@ text.cWrite("Username: ", 4)
 local name = read()
 text.cWrite("Password: ", 6)
 local pass = read('*')
+file = fs.open("users/"..usrName,"r")
+if not fs.exists("users/"..usrName) then
+	text.cPrint('Login failed!', 8)
+	sleep(0.5)
+	login()
+else
+	local fileData = {}
+	local line = file.readLine()
+	repeat
+		table.insert(fileData, line)
+		line = file.readLine()
+	until line == nil -- readLine()
+		file.close()
+		if pass == fileData[1] then
+			cPrint("Login successfull!", 8)
+			sleep(0.5)
+			desktop()
+		else
+			cPrint("Login failed", 8)
+			sleep(0.5)
+			login()
+		end
+
+end
+end
