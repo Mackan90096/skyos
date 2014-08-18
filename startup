@@ -2,6 +2,10 @@
 
 os.loadAPI('api/text')
 
+-- Image load
+
+pico = paintutils.loadImage("ico/pastebin.cico")
+
 local w, h = term.getSize()
 term.setBackgroundColor(2048)
 term.setTextColor(1)
@@ -53,6 +57,7 @@ function desktop()
 	term.clearLine()
 	term.setTextColor(1)
 	clockTimer = os.startTimer(1)
+	paintutils.drawImage(pico, 1, 3)
 end
 
 login()
