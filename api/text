@@ -1,3 +1,5 @@
+local w, h = term.getSize()
+
 function cPrint(msg, y)
   term.setCursorPos(math.floor((w-#msg)/2) + (#msg % 2 == 0 and 1 or 0), y or h/2)
   print(msg)
