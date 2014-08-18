@@ -17,8 +17,8 @@ text.cWrite("Username: ", 4)
 local name = read()
 text.cWrite("Password: ", 6)
 local pass = read('*')
-file = fs.open("users/"..usrName,"r")
-if not fs.exists("users/"..usrName) then
+file = fs.open("users/"..name,"r")
+if not fs.exists("users/"..name) then
 	text.cPrint('Login failed!', 8)
 	sleep(0.5)
 	login()
