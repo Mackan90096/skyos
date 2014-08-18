@@ -73,5 +73,9 @@ while login do
 
 			write(formattedTime)
 		end
+	elseif e == "mouse_click" then
+		if p1 >= 1 and p1 <= 3 and p2 >= 3 and p2 <= 4 and p3 == 1 then
+			pastebin()
+		end
 	end
 end
