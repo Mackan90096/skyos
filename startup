@@ -52,7 +52,7 @@ function desktop()
 	term.setCursorPos(1,1)
 	term.setBackgroundColor(256)
 	term.clearLine()
-
+	term.setTextColor(1)
 
 end
 
@@ -66,6 +66,7 @@ while login do
 			local time = os.time()
 			local formattedTime = textutils.formatTime(time, false)
 			term.setCursorPos(1, w-10)
+			
 			write(formattedTime)
 		end
 	end
