@@ -6,7 +6,7 @@ local w, h = term.getSize()
 term.setBackgroundColor(2048)
 term.setTextColor(1)
 term.clear()
-
+clockTimer = os.startTimer(1)
 
 function login()
 term.clear()
@@ -32,8 +32,10 @@ else
 		file.close()
 		if pass == fileData[1] then
 			text.cPrint("Login successfull!", 8)
+			login = true
 			sleep(0.5)
 			desktop()
+
 		else
 			text.cPrint("Login failed", 8)
 			sleep(0.5)
@@ -43,4 +45,28 @@ else
 end
 end
 
+
+function desktop()
+	desktop = true
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setBackgroundColor('gray')
+	term.clearLine()
+
+
+end
+
 login()
+
+while login do
+	e, p1, p2, p3 = os.pullEvent()
+	if e == 'timer' then
+		clockTimer = os.startTimer(1)
+		if desktop then
+			local time = os.time()
+			local formattedTime = textutils.formatTime(time, false)
+			term.setCursorPos(1, w-10)
+			write(formattedTime)
+		end
+	end
+end
