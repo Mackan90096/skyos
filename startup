@@ -6,7 +6,6 @@ local w, h = term.getSize()
 term.setBackgroundColor(2048)
 term.setTextColor(1)
 term.clear()
-clockTimer = os.startTimer(1)
 
 function login()
 term.clear()
@@ -53,7 +52,7 @@ function desktop()
 	term.setBackgroundColor(256)
 	term.clearLine()
 	term.setTextColor(1)
-
+	clockTimer = os.startTimer(1)
 end
 
 login()
@@ -66,7 +65,7 @@ while login do
 			local time = os.time()
 			local formattedTime = textutils.formatTime(time, false)
 			term.setCursorPos(1, w-10)
-			
+
 			write(formattedTime)
 		end
 	end
