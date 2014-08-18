@@ -7,4 +7,4 @@ term.setBackgroundColor(2048)
 term.setTextColor(1)
 term.clear()
 
-cPrint("DUMMY TEXT", 2)
+text.cPrint("DUMMY TEXT", 2)
