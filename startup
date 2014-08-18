@@ -31,11 +31,11 @@ else
 	until line == nil -- readLine()
 		file.close()
 		if pass == fileData[1] then
-			cPrint("Login successfull!", 8)
+			text.cPrint("Login successfull!", 8)
 			sleep(0.5)
 			desktop()
 		else
-			cPrint("Login failed", 8)
+			text.cPrint("Login failed", 8)
 			sleep(0.5)
 			login()
 		end
