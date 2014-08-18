@@ -1,1 +1,10 @@
-print("DUMMY TEXT")
+-- API load
+
+t = os.loadAPI('api/text')
+
+local w, h = term.getSize()
+term.setBackgroundColor(2048)
+term.setTextColor(1)
+term.clear()
+
+t.cPrint("DUMMY TEXT", 2)
