@@ -74,24 +74,6 @@ function drawDesktop()
 	menu = true
 end
 
-function programs()
-	progtable = {}
-	y = 0
-	local FileList = fs.list("programs")
-	prog = true
-	term.setBackgroundColor(2048)
-	term.clear()
-	term.setCursorPos(1,1)
-	text.cPrint("Programs", 2)
-	term.setCursorPos(1,1)
-	print("X")
-	for _, file in ipairs(FileList) do
-		table.insert(progtable, file)
-	end
-	Menu(progtable)
-
-end
-
 local xSize, ySize, myEvent = term.getSize()
 
 -- Returns whether a click was performed at a given location.
@@ -176,6 +158,24 @@ local function Menu(displayList)
                         position = position < 1 and 1 or position
                 end
         end
+end
+
+function programs()
+	progtable = {}
+	y = 0
+	local FileList = fs.list("programs")
+	prog = true
+	term.setBackgroundColor(2048)
+	term.clear()
+	term.setCursorPos(1,1)
+	text.cPrint("Programs", 2)
+	term.setCursorPos(1,1)
+	print("X")
+	for _, file in ipairs(FileList) do
+		table.insert(progtable, file)
+	end
+	Menu(progtable)
+
 end
 
 function pasteget()
