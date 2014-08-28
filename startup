@@ -88,7 +88,10 @@ function programs()
 	for _, file in ipairs(FileList) do
 		table.insert(progtable, file)
 	end
-	menu(progtable)
+	for _, file in ipairs(progtable) do
+		print(file)
+	end
+	Menu(progtable)
 
 end
 
@@ -114,7 +117,7 @@ local function pressedKey(...)
         return false
 end
 
-local function menu(displayList)
+local function Menu(displayList)
         local position, lastPosition = 1, 0
         term.setBackgroundColour(colours.black)
 
