@@ -88,9 +88,6 @@ function programs()
 	for _, file in ipairs(FileList) do
 		table.insert(progtable, file)
 	end
-	for _, file in ipairs(progtable) do
-		print(file)
-	end
 	Menu(progtable)
 
 end
