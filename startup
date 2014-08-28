@@ -2,6 +2,10 @@
 
 os.loadAPI('api/text')
 
+-- Image load
+
+pico = paintutils.loadImage("ico/pastebin.cico")
+
 local w, h = term.getSize()
 term.setBackgroundColor(2048)
 term.setTextColor(1)
@@ -43,6 +47,49 @@ else
 		end
 
 end
+end
+
+
+function desktop()
+	desktop = true
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setBackgroundColor(256)
+	term.clearLine()
+	term.setTextColor(1)
+	write("Menu")
+	clockTimer = os.startTimer(1)
+	term.setBackgroundColor(2048)
+	menu = true
+end
+
+function drawDesktop()
+	term.setBackgroundColor(2048)
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setBackgroundColor(256)
+	term.clearLine()
+	term.setTextColor(1)
+	write("Menu")
+	menu = true
+end
+
+function programs()
+	progtable = {}
+	y = 0
+	local FileList = fs.list("programs")
+	prog = true
+	term.setBackgroundColor(2048)
+	term.clear()
+	term.setCursorPos(1,1)
+	text.cPrint("Programs", 2)
+	term.setCursorPos(1,1)
+	print("X")
+	for _, file in ipairs(FileList) do
+		table.insert(progtable, file)
+	end
+	Menu(progtable)
+
 end
 
 local xSize, ySize, myEvent = term.getSize()
@@ -122,7 +169,6 @@ local function Menu(displayList)
                 elseif pressedKey(keys.enter, keys.space) or clickedAt(math.floor(ySize / 2) + 1) then
                         return displayList[position]
 
-
                 -- User clicked somewhere on the file list; move that entry to the currently-selected position.
                 elseif clickedAt(0, xSize + 1, 0, ySize + 1) then
                         position = position + myEvent[4] - math.floor(ySize / 2) - 1
@@ -132,56 +178,25 @@ local function Menu(displayList)
         end
 end
 
-
-function desktop()
-	desktop = true
-	term.clear()
-	term.setCursorPos(1,1)
-	term.setBackgroundColor(256)
-	term.clearLine()
-	term.setTextColor(1)
-	write("Menu")
-	clockTimer = os.startTimer(1)
-	term.setBackgroundColor(2048)
-	menu = true
-end
-
-function drawDesktop()
+function pasteget()
 	term.setBackgroundColor(2048)
 	term.clear()
-	term.setCursorPos(1,1)
-	term.setBackgroundColor(256)
-	term.clearLine()
-	term.setTextColor(1)
-	write("Menu")
-	menu = true
-end
-
-function programs()
-	progtable = {}
-	y = 0
-	local FileList = fs.list("programs")
-	prog = true
-	term.setBackgroundColor(2048)
-	term.clear()
-	term.setCursorPos(1,1)
-	text.cPrint("Programs", 2)
-	term.setCursorPos(1,1)
-	print("X")
-	for _, file in ipairs(FileList) do
-		table.insert(progtable, file)
-	end
-	shell.run("programs/"..Menu(progtable))
-
+	text.cPrint("PasteGet", 2)
+	text.cWrite("Paste ID: ", 4)
+	text.cWrite("File Name: ", 6)
+	text.cWrite("Paste ID: ", 4)
+	id = read()
+	text.cWrite("File Name: ", 6)
+	name = read()
+	shell.run("pastebin get", id, "programs/"..name)
+	sleep(0.5)
+	programs()
 end
 
 login()
 
 while login do
-	e, p1, p2, p3 = os.pullEventRaw()
-	  if e == "terminate" then
-  			drawDesktop()
-  		end
+	e, p1, p2, p3 = os.pullEvent()
 	if e == "mouse_click" then
 		if menu then
 			if p2 >= 1 and p2 <= 4 and p3 == 1 then
