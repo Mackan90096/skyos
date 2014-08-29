@@ -1,16 +1,14 @@
 -- API load
 
 os.loadAPI('api/text')
-
--- Image load
-
-pico = paintutils.loadImage("ico/pastebin.cico")
+os.loadAPI('api/windows')
 
 local w, h = term.getSize()
 term.setBackgroundColor(2048)
 term.setTextColor(1)
 term.clear()
 desktop = false
+login = false
 
 function login()
 term.clear()
@@ -47,31 +45,6 @@ else
 		end
 
 end
-end
-
-
-function desktop()
-	desktop = true
-	term.clear()
-	term.setCursorPos(1,1)
-	term.setBackgroundColor(256)
-	term.clearLine()
-	term.setTextColor(1)
-	write("Menu")
-	clockTimer = os.startTimer(1)
-	term.setBackgroundColor(2048)
-	menu = true
-end
-
-function drawDesktop()
-	term.setBackgroundColor(2048)
-	term.clear()
-	term.setCursorPos(1,1)
-	term.setBackgroundColor(256)
-	term.clearLine()
-	term.setTextColor(1)
-	write("Menu")
-	menu = true
 end
 
 local xSize, ySize, myEvent = term.getSize()
@@ -149,7 +122,19 @@ local function Menu(displayList)
 
                 -- Item selected, return its name.
                 elseif pressedKey(keys.enter, keys.space) or clickedAt(math.floor(ySize / 2) + 1) then
-                        return displayList[position]
+                	login = true
+                        os.run({},"programs/"..displayList[position])
+                        while true do
+                        e, p1, p2, p3 = os.pullEventRaw()
+	  						if e == "terminate" then
+  								drawDesktop()
+  							elseif e == "key" then
+  								if p1 == 1 then
+  									drawDesktop()
+  								end
+  							end
+  						end
+
 
                 -- User clicked somewhere on the file list; move that entry to the currently-selected position.
                 elseif clickedAt(0, xSize + 1, 0, ySize + 1) then
@@ -158,6 +143,30 @@ local function Menu(displayList)
                         position = position < 1 and 1 or position
                 end
         end
+end
+
+
+function desktop()
+	desktop = true
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setBackgroundColor(256)
+	term.clearLine()
+	term.setTextColor(1)
+	write("Menu")
+	term.setBackgroundColor(2048)
+	menu = true
+end
+
+function drawDesktop()
+	term.setBackgroundColor(2048)
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setBackgroundColor(256)
+	term.clearLine()
+	term.setTextColor(1)
+	write("Menu")
+	menu = true
 end
 
 function programs()
@@ -175,13 +184,35 @@ function programs()
 		table.insert(progtable, file)
 	end
 	Menu(progtable)
+	--p = tostring(Menu(progtable))
+	--shell.run("programs/"..p)
+	--drawDesktop()
+end
 
+function run()
+	term.setBackgroundColor(2048)
+	term.clear()
+	text.cPrint("Run", 2)
+	text.cWrite("File Name: ", 4)
+	text.cWrite("File Name: ", 4)
+	name = read()
+	shell.run(name)
+	sleep(0.5)
+	programs()
+end
+
+function shell()
+	term.clear()
+	shell.run("shell")
 end
 
 login()
 
 while login do
-	e, p1, p2, p3 = os.pullEvent()
+	e, p1, p2, p3 = os.pullEventRaw()
+	  if e == "terminate" then
+  			drawDesktop()
+  		end
 	if e == "mouse_click" then
 		if menu then
 			if p2 >= 1 and p2 <= 4 and p3 == 1 then
@@ -192,14 +223,23 @@ while login do
 					print("Programs")
 					term.setCursorPos(1,4)
 					print("Close")
+					term.setCursorPos(1,5)
+					print("Run")
+					term.setCursorPos(1,6)
+					print("Shell")
 				elseif p2 >= 1 and p2 <= 6 and p3 == 2 then
 					os.reboot()
 				elseif p2 >= 1 and p2 <= 8 and p3 == 3 then
 					programs()
 					menu = false
 					prog = true
+					login = true
 				elseif p2 >= 1 and p2 <= 5 and p3 == 4 then
 					drawDesktop()
+				elseif p2 >= 1 and p2 <= 3 and p3 == 5 then
+					run()
+				elseif p2 >= 1 and p2 <= 4 and p3 == 6 then
+					shell()
 			end
 		elseif prog then
 			if p2 == 1 and p3 == 1 then
@@ -208,6 +248,10 @@ while login do
 			elseif p2 >= 1 and p2 <= 8 and p3 == 3 then
 				pasteget()
 			end
+		end
+	elseif e == "key" then
+		if p1 == 25 then
+			programs()
 		end
 	end
 end

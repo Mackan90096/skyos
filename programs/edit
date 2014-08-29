@@ -1,0 +1,6 @@
+term.setBackgroundColor(2048)
+term.clear()
+text.cPrint("Edit", 2)
+text.cWrite("File Name: ", 4)
+name = read()
+os.run({}, "edit "..name)
